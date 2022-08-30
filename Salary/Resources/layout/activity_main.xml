@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <TextView
+        android:text="Заработок за сегодня:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/textViewCount"
+        android:layout_marginTop="128.5dp"
+        android:layout_marginLeft="5.0dp" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextCount"
+        android:layout_marginTop="155.5dp"
+        android:hint="Введите сумму" />
+    <Button
+        android:text="Сохранить"
+        android:layout_width="match_parent"
+        android:layout_height="49.5dp"
+        android:id="@+id/buttonSave"
+        android:layout_marginTop="221.5dp"
+        android:backgroundTint="#fffecd38"
+        android:textStyle="normal" />
+
+    
+    <ImageView
+        android:src="@android:drawable/ic_menu_gallery"
+        android:layout_width="128.0dp"
+        android:layout_height="128.0dp"
+        android:id="@+id/imageViewTaxi"
+        android:layout_centerHorizontal="false"/>
+    <TextView
+        android:text="Подсчет зарплаты"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView1"
+        android:layout_centerHorizontal="false"
+        android:layout_marginTop="23.5dp"
+        android:layout_marginLeft="155.5dp"
+        android:textColor="#fffecd38" />
+    <Button
+        android:text="Просмотреть оклад за месяц"
+        android:layout_width="match_parent"
+        android:layout_height="49.5dp"
+        android:id="@+id/buttonSumma"
+        android:layout_marginTop="283.5dp"
+        android:textColor="#fffecd38"
+        android:backgroundTint="#ff5a595b"
+        android:fadingEdge="none|horizontal|vertical" />
+
+</RelativeLayout>
