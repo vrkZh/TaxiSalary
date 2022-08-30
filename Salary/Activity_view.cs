@@ -13,11 +13,29 @@ using System.Text;
 
 namespace Salary
 {
-    [Activity(Label = "Activity_view")]
+    [Activity(Label = "Дневник")]
     public class Activity_view : Activity
     {
         ListView lv;
         TextView tvMax;
+        Spinner sp;
+        int num = 0;
+        List<string> lstMont = new List<string>()
+        {
+            "По умолчанию",
+            "Январь",
+            "Февраль",
+            "Март",
+            "Апрель",
+            "Май",
+            "Июнь",
+            "Июль",
+            "Август",
+            "Сентябрь",
+            "Октябрь",
+            "Ноябрь",
+            "Декабрь"
+        };
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -25,25 +43,36 @@ namespace Salary
             // Create your application here
             lv = FindViewById<ListView>(Resource.Id.listView1);
             tvMax = FindViewById<TextView>(Resource.Id.textViewMax);
-
+            sp = FindViewById<Spinner>(Resource.Id.spinnerMonth);
+            sp.ItemSelected += Sp_ItemSelected;
             ///
             /// Нужно подгрузить в Cmb месяца и по умолчанию текущий месяц
             ///
+            sp.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem, lstMont);
             MetodShow(true);
                       
            
             
         }
 
+        private void Sp_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            num = e.Position;
+            MetodShow();
+        }
+
         private void MetodShow(bool flag=false)
         {
            
                 int month;
-            if (flag)
+            //if (flag)
+            //    month = DateTime.Now.Month;
+            //else
+            //    // выбранный елемент cmb
+            //    month = 1;
+            month = num;
+            if (month == 0)
                 month = DateTime.Now.Month;
-            else
-                // выбранный елемент cmb
-                month = 1;
             foreach (var item in MainActivity.montZarplata)
             {
                 if (item.Key == month)

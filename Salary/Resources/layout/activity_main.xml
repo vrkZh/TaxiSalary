@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#303030"
     >
     <TextView
         android:text="Заработок за сегодня:"
@@ -15,13 +16,16 @@
         android:minHeight="25px"
         android:id="@+id/textViewCount"
         android:layout_marginTop="128.5dp"
-        android:layout_marginLeft="5.0dp" />
+        android:layout_marginLeft="5.0dp"
+        android:textColor="#ffffffff" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editTextCount"
         android:layout_marginTop="155.5dp"
-        android:hint="Введите сумму" />
+        android:hint="Введите сумму:"
+        android:textColor="#ffffffff"
+        android:textColorHint="#ffcdcdcd" />
     <Button
         android:text="Сохранить"
         android:layout_width="match_parent"
@@ -31,7 +35,7 @@
         android:backgroundTint="#fffecd38"
         android:textStyle="normal" />
 
-    
+
     <ImageView
         android:src="@android:drawable/ic_menu_gallery"
         android:layout_width="128.0dp"

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#ff303030">
     <TextView
         android:text="Заработок за месяц: "
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -14,8 +16,9 @@
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="34.5dp"
-        android:id="@+id/spinner1"
-        android:layout_marginBottom="11.0dp" />
+        android:id="@+id/spinnerMonth"
+        android:layout_marginBottom="11.0dp"
+        android:autofillHints="Выберите месяц" />
     <ListView
         android:minWidth="25px"
         android:minHeight="25px"

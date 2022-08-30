@@ -15,9 +15,10 @@ using Newtonsoft.Json;
 
 namespace Salary
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
+    [Activity(Label = "Моя Зарплата", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
+        //Theme.DeviceDefault
         Button btnSave, btnView;
         ImageView ivTaxi;
         EditText edtSumma;
