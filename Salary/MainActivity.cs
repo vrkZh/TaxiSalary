@@ -91,7 +91,7 @@ namespace Salary
                 montZarplata.Add(11, new List<double> { 0 });
                 montZarplata.Add(12, new List<double> { 0 });
             }
-           
+
 
 
 
@@ -106,7 +106,7 @@ namespace Salary
             }
         }
 
-        
+
         private void dataReader()
         {
             // Если СУЩЕСТВУЕТ УЖЕ ДАННЫЕ (1-12)
@@ -128,6 +128,7 @@ namespace Salary
 
         private void BtnView_Click(object sender, EventArgs e)
         {
+            edtSumma.Text = "";
             Intent actView = new Intent(this, typeof(Activity_view));
             StartActivity(actView);
         }
@@ -146,36 +147,31 @@ namespace Salary
         private void SaveMetod()
         {
 
-            
+            if (edtSumma.Text.Contains(","))
+                edtSumma.Text = edtSumma.Text.Replace(",", ".");
+            try
+            {
+                montZarplata[DateTime.Now.Month].Add(double.Parse(edtSumma.Text));
+                
+                string json = JsonConvert.SerializeObject(montZarplata, Formatting.Indented);
 
-            montZarplata[DateTime.Now.Month].Add(double.Parse(edtSumma.Text));
-            //try
-            //{
-            //FileStream file = new FileStream(fName2, FileMode.OpenOrCreate);
-            //file.Close();
+                File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal) + "/dictionaryZP.json", json);
+                new Android.App.AlertDialog.Builder(this).
+                 SetTitle("Внимание").
+                 SetMessage("Данные успешно сохранены.").
+                 SetNegativeButton("Хорошо", delegate { }
+                 ).Show();
 
-            string json = JsonConvert.SerializeObject(montZarplata, Formatting.Indented);
-
-            File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal) + "/dictionaryZP.json", json);
-            new Android.App.AlertDialog.Builder(this).
-             SetTitle("Внимание").
-             SetMessage("Данные успешно сохранены.").
-             SetNegativeButton("Хорошо", delegate { }
-             ).Show();
-
-
-
-            //dataReader();
-            //}
-            //catch
-            //{
-            //    new Android.App.AlertDialog.Builder(this).
-            //     SetTitle("Внимание").
-            //     SetMessage("Ошибка.").
-            //     SetNegativeButton("Ок", delegate { }
-            //     ).Show();
-            //    dataReader();
-            //}
+            }
+            catch
+            {
+                new Android.App.AlertDialog.Builder(this).
+                 SetTitle("Внимание").
+                 SetMessage("Ошибка, данные указаны не верно!").
+                 SetNegativeButton("Ок", delegate { }
+                 ).Show();
+                dataReader();
+            }
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

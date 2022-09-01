@@ -10,6 +10,12 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+// заменить точку  на запятую +
+// изменить список верх ногами
+// исправить месяц
+// удалить данные с tbx +
+// увеличить размер cbx
+// добавить дату
 
 namespace Salary
 {
@@ -45,14 +51,11 @@ namespace Salary
             tvMax = FindViewById<TextView>(Resource.Id.textViewMax);
             sp = FindViewById<Spinner>(Resource.Id.spinnerMonth);
             sp.ItemSelected += Sp_ItemSelected;
-            ///
-            /// Нужно подгрузить в Cmb месяца и по умолчанию текущий месяц
-            ///
             sp.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem, lstMont);
-            MetodShow(true);
-                      
-           
-            
+            MetodShow();
+
+
+
         }
 
         private void Sp_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
@@ -61,15 +64,10 @@ namespace Salary
             MetodShow();
         }
 
-        private void MetodShow(bool flag=false)
+        private void MetodShow()
         {
-           
-                int month;
-            //if (flag)
-            //    month = DateTime.Now.Month;
-            //else
-            //    // выбранный елемент cmb
-            //    month = 1;
+
+            int month;
             month = num;
             if (month == 0)
                 month = DateTime.Now.Month;
@@ -78,9 +76,10 @@ namespace Salary
                 if (item.Key == month)
                 {
                     tvMax.Text = "Зарплата за " + CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.Key) + ": " + item.Value.Sum();
-                    // В чем ошибка?
-                     lv.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, item.Value);
+                    
+                    lv.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, item.Value);
                     lv.ChoiceMode = ChoiceMode.Single;
+                   
                 }
             }
         }

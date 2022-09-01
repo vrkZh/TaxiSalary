@@ -15,10 +15,10 @@
         android:id="@+id/textViewMax" />
     <Spinner
         android:layout_width="match_parent"
-        android:layout_height="34.5dp"
+        android:layout_height="33.5dp"
         android:id="@+id/spinnerMonth"
         android:layout_marginBottom="11.0dp"
-        android:autofillHints="Выберите месяц" />
+        android:autofillHints="Выберите месяц"/>
     <ListView
         android:minWidth="25px"
         android:minHeight="25px"
