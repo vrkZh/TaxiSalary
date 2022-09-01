@@ -10,11 +10,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-// заменить точку  на запятую +
-// изменить список верх ногами
-// исправить месяц
-// удалить данные с tbx +
-// увеличить размер cbx
+
 // добавить дату
 
 namespace Salary

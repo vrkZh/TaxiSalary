@@ -18,7 +18,7 @@ namespace Salary
     [Activity(Label = "Моя Зарплата", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
-        //Theme.DeviceDefault
+       
         Button btnSave, btnView;
         ImageView ivTaxi;
         EditText edtSumma;
