@@ -11,7 +11,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-// добавить дату
 
 namespace Salary
 {
@@ -49,9 +48,6 @@ namespace Salary
             sp.ItemSelected += Sp_ItemSelected;
             sp.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem, lstMont);
             MetodShow();
-
-
-
         }
 
         private void Sp_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
@@ -62,7 +58,6 @@ namespace Salary
 
         private void MetodShow()
         {
-
             int month;
             month = num;
             if (month == 0)
@@ -75,13 +70,11 @@ namespace Salary
                     double summa = 0;
                     for (int i = 0; i < item.Value.Count; i++)
                     {
+                        if (item.Value[i].sum == 0 && item.Value.Count>1)
+                            item.Value.RemoveAt(i);
                         lst.Add(item.Value[i].dt.ToLongDateString() + " - " + item.Value[i].sum + " р.");
                         summa += item.Value[i].sum;
                     }
-
-
-
-
                     tvMax.Text = "Зарплата за " + CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.Key) + ": " + summa;
                     if (summa != 0)
                         lv.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, lst);
@@ -89,8 +82,6 @@ namespace Salary
                         lv.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, new List<string>() { });
 
                     lv.ChoiceMode = ChoiceMode.Single;
-
-
                 }
             }
         }

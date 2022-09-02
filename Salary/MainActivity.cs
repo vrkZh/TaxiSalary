@@ -18,21 +18,18 @@ namespace Salary
     [Activity(Label = "Моя Зарплата", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
-        string path = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "dictionaryNw.json");
         Button btnSave, btnView;
         ImageView ivTaxi;
         EditText edtSumma;
 
-        internal static string fName = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal) + "/YearFile.xml";
-
+        string path = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "dictionaryNw.json");
+        string fName = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal) + "/YearFile.xml";
         internal static XmlSerializer xs = new XmlSerializer(typeof(string));
-       
-        internal static Dictionary<int, Dictionary<List<double>, List<DateTime>>> dict2 = new Dictionary<int, Dictionary<List<double>, List<DateTime>>>();
 
         internal static Dictionary<int, List<Data>> dictJson = new Dictionary<int, List<Data>>();
-        List<Data> lstData = new List<Data>();
 
         string dateIsFile;
+        bool flag;
 
         public class Data
         {
@@ -52,10 +49,10 @@ namespace Salary
             ivTaxi = FindViewById<ImageView>(Resource.Id.imageViewTaxi);
             edtSumma = FindViewById<EditText>(Resource.Id.editTextCount);
             ivTaxi.SetImageResource(Resource.Drawable.taxi);
-
+            
             btnSave.Click += BtnSave_Click;
             btnView.Click += BtnView_Click;
-
+            
             // если существует файл c датой
             if (File.Exists(fName))
             {
@@ -67,7 +64,6 @@ namespace Salary
                     if (dateIsFile != DateTime.Now.Year.ToString())
                     {
                         // записать новый год и очистить данные по прошлому году
-                        //montZarplata.Clear();
                         dictJson.Clear();
                         File.Delete(path);
                         fs.Close();
@@ -91,25 +87,9 @@ namespace Salary
             {
                 for (int i = 1; i <= 12; i++)
                 {
-                    dictJson.Add(i, new List<Data>() { new Data() { sum = 0, dt = DateTime.Now } });
+                    dictJson.Add(i, new List<Data>() { new Data() { sum = 0, dt = new DateTime(DateTime.Now.Year,i,1)} });
                 }
-
-                //montZarplata.Add(2, new List<double> { 0 });
-                //montZarplata.Add(3, new List<double> { 0 });
-                //montZarplata.Add(4, new List<double> { 0 });
-                //montZarplata.Add(5, new List<double> { 0 });
-                //montZarplata.Add(6, new List<double> { 0 });
-                //montZarplata.Add(7, new List<double> { 0 });
-                //montZarplata.Add(8, new List<double> { 0 });
-                //montZarplata.Add(9, new List<double> { 0 });
-                //montZarplata.Add(10, new List<double> { 0 });
-                //montZarplata.Add(11, new List<double> { 0 });
-                //montZarplata.Add(12, new List<double> { 0 });
             }
-
-
-
-
         }
 
         private void SaveYear()
@@ -124,7 +104,6 @@ namespace Salary
 
         private void dataReader()
         {
-            // Если СУЩЕСТВУЕТ УЖЕ ДАННЫЕ (1-12)
             try
             {
                 string json = File.ReadAllText(path);
@@ -161,13 +140,23 @@ namespace Salary
 
         private void SaveMetod()
         {
-            // Dictionary<int, Dictionary<List<double>, List<DateTime>>> dict2 = new Dictionary<int, Dictionary<List<double>, List<DateTime>>>();
             if (edtSumma.Text.Contains(","))
                 edtSumma.Text = edtSumma.Text.Replace(",", ".");
             try
             {
-                              
-                dictJson[DateTime.Now.Month].Add(new Data() { sum = double.Parse(edtSumma.Text), dt = DateTime.Now });
+                foreach (var item in dictJson)
+                {
+                    for (int i = 0; i < item.Value.Count; i++)
+                    {
+                        if (item.Value[i].dt.Day == DateTime.Now.Day && item.Key != 0)
+                        {
+                            item.Value[i].sum += double.Parse(edtSumma.Text);
+                            flag = true;
+                        }
+                    }
+                }
+                if (!flag)
+                    dictJson[DateTime.Now.Month].Add(new Data() { sum = double.Parse(edtSumma.Text), dt = DateTime.Now });
                 string json = JsonConvert.SerializeObject(dictJson, Formatting.Indented);
                 edtSumma.Text = "";
                 File.WriteAllText(path, json);
