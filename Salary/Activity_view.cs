@@ -67,15 +67,30 @@ namespace Salary
             month = num;
             if (month == 0)
                 month = DateTime.Now.Month;
-            foreach (var item in MainActivity.montZarplata)
+            foreach (var item in MainActivity.dictJson)
             {
                 if (item.Key == month)
                 {
-                    tvMax.Text = "Зарплата за " + CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.Key) + ": " + item.Value.Sum();
-                    
-                    lv.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, item.Value);
+                    var lst = new List<string>();
+                    double summa = 0;
+                    for (int i = 0; i < item.Value.Count; i++)
+                    {
+                        lst.Add(item.Value[i].dt.ToLongDateString() + " - " + item.Value[i].sum + " р.");
+                        summa += item.Value[i].sum;
+                    }
+
+
+
+
+                    tvMax.Text = "Зарплата за " + CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.Key) + ": " + summa;
+                    if (summa != 0)
+                        lv.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, lst);
+                    else
+                        lv.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, new List<string>() { });
+
                     lv.ChoiceMode = ChoiceMode.Single;
-                   
+
+
                 }
             }
         }

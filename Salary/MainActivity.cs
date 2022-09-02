@@ -18,7 +18,7 @@ namespace Salary
     [Activity(Label = "Моя Зарплата", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
-       
+        string path = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "dictionaryNw.json");
         Button btnSave, btnView;
         ImageView ivTaxi;
         EditText edtSumma;
@@ -26,10 +26,20 @@ namespace Salary
         internal static string fName = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal) + "/YearFile.xml";
 
         internal static XmlSerializer xs = new XmlSerializer(typeof(string));
-        internal static Dictionary<int, List<double>> montZarplata = new Dictionary<int, List<double>>();
+       
+        internal static Dictionary<int, Dictionary<List<double>, List<DateTime>>> dict2 = new Dictionary<int, Dictionary<List<double>, List<DateTime>>>();
 
+        internal static Dictionary<int, List<Data>> dictJson = new Dictionary<int, List<Data>>();
+        List<Data> lstData = new List<Data>();
 
         string dateIsFile;
+
+        public class Data
+        {
+            public double sum { get; set; }
+            public DateTime dt { get; set; }
+        }
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -57,8 +67,9 @@ namespace Salary
                     if (dateIsFile != DateTime.Now.Year.ToString())
                     {
                         // записать новый год и очистить данные по прошлому году
-                        montZarplata.Clear();
-                        File.Delete(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal) + "/dictionaryZP.json");
+                        //montZarplata.Clear();
+                        dictJson.Clear();
+                        File.Delete(path);
                         fs.Close();
                         SaveYear();
 
@@ -71,25 +82,29 @@ namespace Salary
                 SaveYear();
             }
             // поулчить и обновить данные
-            if (File.Exists(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal) + "/dictionaryZP.json"))
+            if (File.Exists(path))
             {
-                string json = File.ReadAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal) + "/dictionaryZP.json");
-                montZarplata = JsonConvert.DeserializeObject<Dictionary<int, List<double>>>(json);
+                string json = File.ReadAllText(path);
+                dictJson = JsonConvert.DeserializeObject<Dictionary<int, List<Data>>>(json);
             }
             else
             {
-                montZarplata.Add(1, new List<double> { 0 });
-                montZarplata.Add(2, new List<double> { 0 });
-                montZarplata.Add(3, new List<double> { 0 });
-                montZarplata.Add(4, new List<double> { 0 });
-                montZarplata.Add(5, new List<double> { 0 });
-                montZarplata.Add(6, new List<double> { 0 });
-                montZarplata.Add(7, new List<double> { 0 });
-                montZarplata.Add(8, new List<double> { 0 });
-                montZarplata.Add(9, new List<double> { 0 });
-                montZarplata.Add(10, new List<double> { 0 });
-                montZarplata.Add(11, new List<double> { 0 });
-                montZarplata.Add(12, new List<double> { 0 });
+                for (int i = 1; i <= 12; i++)
+                {
+                    dictJson.Add(i, new List<Data>() { new Data() { sum = 0, dt = DateTime.Now } });
+                }
+
+                //montZarplata.Add(2, new List<double> { 0 });
+                //montZarplata.Add(3, new List<double> { 0 });
+                //montZarplata.Add(4, new List<double> { 0 });
+                //montZarplata.Add(5, new List<double> { 0 });
+                //montZarplata.Add(6, new List<double> { 0 });
+                //montZarplata.Add(7, new List<double> { 0 });
+                //montZarplata.Add(8, new List<double> { 0 });
+                //montZarplata.Add(9, new List<double> { 0 });
+                //montZarplata.Add(10, new List<double> { 0 });
+                //montZarplata.Add(11, new List<double> { 0 });
+                //montZarplata.Add(12, new List<double> { 0 });
             }
 
 
@@ -112,8 +127,8 @@ namespace Salary
             // Если СУЩЕСТВУЕТ УЖЕ ДАННЫЕ (1-12)
             try
             {
-                string json = File.ReadAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal) + "/dictionaryZP.json");
-                montZarplata = JsonConvert.DeserializeObject<Dictionary<int, List<double>>>(json);
+                string json = File.ReadAllText(path);
+                dictJson = JsonConvert.DeserializeObject<Dictionary<int, List<Data>>>(json);
             }
             catch
             {
@@ -146,16 +161,16 @@ namespace Salary
 
         private void SaveMetod()
         {
-
+            // Dictionary<int, Dictionary<List<double>, List<DateTime>>> dict2 = new Dictionary<int, Dictionary<List<double>, List<DateTime>>>();
             if (edtSumma.Text.Contains(","))
                 edtSumma.Text = edtSumma.Text.Replace(",", ".");
             try
             {
-                montZarplata[DateTime.Now.Month].Add(double.Parse(edtSumma.Text));
-                
-                string json = JsonConvert.SerializeObject(montZarplata, Formatting.Indented);
-
-                File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal) + "/dictionaryZP.json", json);
+                              
+                dictJson[DateTime.Now.Month].Add(new Data() { sum = double.Parse(edtSumma.Text), dt = DateTime.Now });
+                string json = JsonConvert.SerializeObject(dictJson, Formatting.Indented);
+                edtSumma.Text = "";
+                File.WriteAllText(path, json);
                 new Android.App.AlertDialog.Builder(this).
                  SetTitle("Внимание").
                  SetMessage("Данные успешно сохранены.").
