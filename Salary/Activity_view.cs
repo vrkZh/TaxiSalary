@@ -47,7 +47,14 @@ namespace Salary
             sp = FindViewById<Spinner>(Resource.Id.spinnerMonth);
             sp.ItemSelected += Sp_ItemSelected;
             sp.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem, lstMont);
+
+            lv.LongClick += Lv_LongClick;
             MetodShow();
+        }
+
+        private void Lv_LongClick(object sender, View.LongClickEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void Sp_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
