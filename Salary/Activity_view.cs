@@ -48,13 +48,33 @@ namespace Salary
             sp.ItemSelected += Sp_ItemSelected;
             sp.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem, lstMont);
 
-            lv.LongClick += Lv_LongClick;
+            lv.ItemLongClick += Lv_ItemLongClick; ;
             MetodShow();
         }
 
-        private void Lv_LongClick(object sender, View.LongClickEventArgs e)
+        private void Lv_ItemLongClick(object sender, AdapterView.ItemLongClickEventArgs e)
+        {           
+            EditList(e.Position);
+            
+        }
+        internal static double sum;
+        internal static DateTime dt;
+        private void EditList(int position)
         {
-            throw new NotImplementedException();
+            if (position == 0)
+                return;
+
+            foreach (var item in MainActivity.dictJson)
+            {
+                if (item.Key == num)
+                {
+                    sum = item.Value[position].sum;
+                    dt = item.Value[position].dt;
+                }
+            }
+
+            Intent actEdit = new Intent(this, typeof(ActivityEdit));            
+            StartActivity(actEdit);
         }
 
         private void Sp_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
@@ -77,7 +97,7 @@ namespace Salary
                     double summa = 0;
                     for (int i = 0; i < item.Value.Count; i++)
                     {
-                        if (item.Value[i].sum == 0 && item.Value.Count>1)
+                        if (item.Value[i].sum == 0 && item.Value.Count > 1)
                             item.Value.RemoveAt(i);
                         lst.Add(item.Value[i].dt.ToLongDateString() + " - " + item.Value[i].sum + " р.");
                         summa += item.Value[i].sum;
