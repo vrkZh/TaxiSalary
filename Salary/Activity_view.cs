@@ -59,11 +59,12 @@ namespace Salary
         }
         internal static double sum;
         internal static DateTime dt;
+        internal static bool edit;
         private void EditList(int position)
         {
             if (position == 0)
                 return;
-
+            // описать разрешение изменения только в этот день
             foreach (var item in MainActivity.dictJson)
             {
                 if (item.Key == num)
@@ -75,6 +76,17 @@ namespace Salary
 
             Intent actEdit = new Intent(this, typeof(ActivityEdit));            
             StartActivity(actEdit);
+
+            if (edit)
+            {
+                foreach (var item in MainActivity.dictJson)
+                {
+                    if (item.Key == num)
+                    {
+                        item.Value[position].sum= sum;
+                    }
+                }
+            }
         }
 
         private void Sp_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
