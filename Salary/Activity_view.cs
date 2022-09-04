@@ -37,6 +37,25 @@ namespace Salary
             "Ноябрь",
             "Декабрь"
         };
+
+        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+
+            if (resultCode == Result.Ok)
+            {
+                foreach (var item in MainActivity.dictJson)
+                {
+                    if (item.Key == num)
+                    {
+                        item.Value[numPos].sum = data.GetDoubleExtra("summa", 0);
+                        MetodShow();
+                        Toast.MakeText(this, "Изменения соханены", ToastLength.Long).Show();
+                    }
+                }
+            }
+        }
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -53,9 +72,9 @@ namespace Salary
         }
 
         private void Lv_ItemLongClick(object sender, AdapterView.ItemLongClickEventArgs e)
-        {           
+        {
             EditList(e.Position);
-            
+
         }
         internal static double sum;
         internal static int numPos;
@@ -67,7 +86,7 @@ namespace Salary
             if (position == -1)
                 return;
             // описать разрешение изменения только в этот день
-            
+
             foreach (var item in MainActivity.dictJson)
             {
                 if (num == 0)
@@ -83,22 +102,13 @@ namespace Salary
                 }
             }
 
-            Intent actEdit = new Intent(this, typeof(ActivityEdit));            
-            StartActivity(actEdit);
+            Intent actEdit = new Intent(this, typeof(ActivityEdit));
 
-            if (edit)
-            {
-                foreach (var item in MainActivity.dictJson)
-                {
-                    if (item.Key == num)
-                    {
-                        item.Value[position].sum= sum;
-                        MetodShow();
-                    }
-                }
-            }
+            StartActivityForResult(actEdit, 0);
+
+
         }
-       
+
 
         private void Sp_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {

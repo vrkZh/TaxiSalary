@@ -23,14 +23,10 @@
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="match_parent"
-        android:layout_height="456.5dp"
+        android:layout_height="match_parent"
         android:id="@+id/listView1"
         android:layout_marginTop="0.0dp"
         android:layout_marginBottom="0.0dp" />
-    <Button
-        android:text="Очистить данные"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button1" />
+   
 
 </LinearLayout>

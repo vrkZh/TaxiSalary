@@ -39,18 +39,20 @@ namespace Salary
                 edt.Text = edt.Text.Replace(",", ".");
             try
             {
-                Activity_view.sum = double.Parse(edt.Text);
-                Activity_view.edit = true;
+                //Activity_view.sum = double.Parse(edt.Text);
+                //Activity_view.edit = true;
 
-                //foreach (var item in MainActivity.dictJson)
-                //{
-                //    if (item.Key == Activity_view.numpos)
-                //    {
-                //        item.Value[Activity_view.numPos].sum = double.Parse(edt.Text); 
-                        
-                //    }
-                //}
+                ////foreach (var item in MainActivity.dictJson)
+                ////{
+                ////    if (item.Key == Activity_view.numpos)
+                ////    {
+                ////        item.Value[Activity_view.numPos].sum = double.Parse(edt.Text); 
 
+                ////    }
+                ////}
+                Intent actView = new Intent(this, typeof(Activity_view));
+                actView.PutExtra("summa", double.Parse(edt.Text));
+                SetResult(Result.Ok, actView);
                 Finish();
             }
             catch
