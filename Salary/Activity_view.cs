@@ -58,19 +58,28 @@ namespace Salary
             
         }
         internal static double sum;
+        internal static int numPos;
+        internal static int numpos;
         internal static DateTime dt;
         internal static bool edit;
         private void EditList(int position)
         {
-            if (position == 0)
+            if (position == -1)
                 return;
             // описать разрешение изменения только в этот день
+            
             foreach (var item in MainActivity.dictJson)
             {
+                if (num == 0)
+                    num = DateTime.Now.Month;
                 if (item.Key == num)
                 {
+                    if (DateTime.Now.Day != item.Value[position].dt.Day)
+                        return;
                     sum = item.Value[position].sum;
                     dt = item.Value[position].dt;
+                    numPos = position;
+                    numpos = num;
                 }
             }
 
@@ -84,10 +93,12 @@ namespace Salary
                     if (item.Key == num)
                     {
                         item.Value[position].sum= sum;
+                        MetodShow();
                     }
                 }
             }
         }
+       
 
         private void Sp_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {

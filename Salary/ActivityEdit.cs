@@ -35,9 +35,32 @@ namespace Salary
         private void Btn_Click(object sender, EventArgs e)
         {
             // описать проверку 
-            Activity_view.sum = double.Parse(edt.Text);
-            Activity_view.edit = true;
-            Finish();
+            if (edt.Text.Contains(","))
+                edt.Text = edt.Text.Replace(",", ".");
+            try
+            {
+                Activity_view.sum = double.Parse(edt.Text);
+                Activity_view.edit = true;
+
+                //foreach (var item in MainActivity.dictJson)
+                //{
+                //    if (item.Key == Activity_view.numpos)
+                //    {
+                //        item.Value[Activity_view.numPos].sum = double.Parse(edt.Text); 
+                        
+                //    }
+                //}
+
+                Finish();
+            }
+            catch
+            {
+                new Android.App.AlertDialog.Builder(this).
+                 SetTitle("Внимание").
+                 SetMessage("Ошибка, данные указаны не верно!").
+                 SetNegativeButton("Ок", delegate { }
+                 ).Show();               
+            }
         }
     }
 }
