@@ -140,8 +140,8 @@ namespace Salary
 
         private void SaveMetod()
         {
-            if (edtSumma.Text.Contains(","))
-                edtSumma.Text = edtSumma.Text.Replace(",", ".");
+            if (edtSumma.Text.Contains("."))
+                edtSumma.Text = edtSumma.Text.Replace(".", ",");
             try
             {
                 foreach (var item in dictJson)
@@ -174,7 +174,7 @@ namespace Salary
                  SetMessage("Ошибка, данные указаны не верно!").
                  SetNegativeButton("Ок", delegate { }
                  ).Show();
-                dataReader();
+               
             }
         }
 

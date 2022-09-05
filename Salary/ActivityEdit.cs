@@ -35,8 +35,8 @@ namespace Salary
         private void Btn_Click(object sender, EventArgs e)
         {
             // описать проверку 
-            if (edt.Text.Contains(","))
-                edt.Text = edt.Text.Replace(",", ".");
+            if (edt.Text.Contains("."))
+                edt.Text = edt.Text.Replace(".", ",");
             try
             {
                 //Activity_view.sum = double.Parse(edt.Text);
